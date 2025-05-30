@@ -79,3 +79,38 @@ async function getActress(id: number): Promise<Actress | null> {
   }
 })();
 
+// Milestone 4
+// Function to get all actresses
+async function getAllActresses(): Promise<Actress[]> {
+  try {
+    const response = await fetch("http://localhost:3333/actresses");
+    if (!response.ok) {
+      throw new Error(`Errore ${response.status}: ${response.statusText}`);
+    }
+    const data: unknown = response.json();
+    if (!Array.isArray(data) || !data.every(isActress)) {
+      throw new Error("Dati non validi per le attrici");
+    }
+    return data;
+  } catch (error) {
+    if (error instanceof Error) {
+      console.error("Errore durante il recupero delle attrici:", error.message);
+    }
+    return [];
+  }
+}
+
+// Example getAllActresses call
+(async () => {
+  try {
+    const actresses = await getAllActresses();
+    if (actresses.length > 0) {
+      console.log("Attrici trovate:", actresses);
+    } else {
+      console.log("Nessuna attrice trovata.");
+    }
+  } catch (error) {
+    console.error("Errore:", error);
+  }
+}
+)();
