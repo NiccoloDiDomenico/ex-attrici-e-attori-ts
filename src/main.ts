@@ -114,3 +114,30 @@ async function getAllActresses(): Promise<Actress[]> {
   }
 }
 )();
+
+// Milestone 5
+// Function to get actresses by IDs
+async function getActresses(ids: number[]): Promise<(Actress | null)[]> {
+  try {
+    const promises = ids.map(id => getActress(id));
+    const results = await Promise.all(promises);
+    return results;
+  } catch (error) {
+    if (error instanceof Error) {
+      console.error(`Errore durante il recupero delle attrici: ${ids}:`, error.message);
+    }
+    return [];
+  }
+}
+
+// Example getActresses call
+(async () => {
+  try {
+    const ids = [1, 2, 3]; // Example IDs
+    const actresses = await getActresses(ids);
+    console.log("Attrici trovate:", actresses);
+  } catch (error) {
+    console.error("Errore:", error);
+  }
+}
+)();
