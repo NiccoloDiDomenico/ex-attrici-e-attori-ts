@@ -141,3 +141,21 @@ async function getActresses(ids: number[]): Promise<(Actress | null)[]> {
   }
 }
 )();
+
+// Bonus 1
+// Function to create a new actress omitting the 'id' field
+function createActress(actress: Omit<Actress, 'id'>): Actress {
+  const newId = Math.floor(Math.random() * 1000);
+  return {
+    id: newId,
+    ...actress
+  }
+}
+
+// Function to update an existing actress with partial modifications
+function updateActress(utente: Actress, modifiche: Partial<Omit<Actress, 'id' | 'name'>>): Actress {
+  return {
+    ...utente,
+    ...modifiche
+  };
+}
