@@ -363,4 +363,34 @@ updateActor({
   nationality: "American"
 }, {
   biography: "Leonardo DiCaprio is an American actor and film producer known for his roles in Titanic, The Wolf of Wall Strett, and The Revenant."
-});     
+});
+
+// Bonus 3
+// Function to get a random cople of actors and actresses
+async function createRandomCouple(): Promise<[Actress, Actor]> {
+  try {
+    const [actresses, actors] = await Promise.all([getAllActresses(), getAllActors()]);
+    if (actresses.length === 0 || actors.length === 0) {
+      throw new Error("Nessuna attrice o attore trovato.");
+    }
+    const randomActress = actresses[Math.floor(Math.random() * actresses.length)];
+    const randomActor = actors[Math.floor(Math.random() * actors.length)];
+    return [randomActress, randomActor];
+  } catch (error) {
+    if (error instanceof Error) {
+      console.error("Errore durante la creazione della coppia casuale:", error.message);
+    }
+    throw error;
+  }
+}
+
+// Example createRandomCouple call
+(async () => {
+  try {
+    const couple = await createRandomCouple();
+    console.log("Coppia casuale trovata:", couple);
+  } catch (error) {
+    console.error("Errore:", error);
+  }
+}
+)();
